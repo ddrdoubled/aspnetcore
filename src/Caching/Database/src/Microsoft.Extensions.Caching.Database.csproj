@@ -1,10 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Distributed cache implementation of Microsoft.Extensions.Caching.Distributed.IDistributedCache using Microsoft SQL Server.</Description>
+    <Description>Distributed database cache abstraction of Microsoft.Extensions.Caching.Distributed.IDistributedCache.</Description>
     <TargetFrameworks>$(DefaultNetCoreTargetFramework);$(DefaultNetFxTargetFramework);netstandard2.0</TargetFrameworks>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PackageTags>cache;distributedcache;sqlserver</PackageTags>
+    <PackageTags>cache;distributedcache</PackageTags>
     <ExcludeFromSourceBuild>true</ExcludeFromSourceBuild>
     <NoWarn>$(NoWarn);PKG0001</NoWarn>
     <IsPackable>true</IsPackable>
@@ -13,11 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="Microsoft.Extensions.Caching.SqlServer.Tests" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Database\src\Microsoft.Extensions.Caching.Database.csproj" />
+    <InternalsVisibleTo Include="Microsoft.Extensions.Caching.Database.Tests" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,5 +20,4 @@
     <Reference Include="Microsoft.Extensions.Options" />
     <Reference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
-
 </Project>

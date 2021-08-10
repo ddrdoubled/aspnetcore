@@ -20,8 +20,10 @@ namespace Microsoft.Extensions.Caching.SqlServer
             // Act
             SqlServerCachingServicesExtensions.AddSqlServerCacheServices(services);
 
+            // Distributed Cache Services
+            var distributedCacheServices = services.Where(x => x.ServiceType == typeof(IDistributedCache));
             // Assert
-            var serviceDescriptor = Assert.Single(services);
+            var serviceDescriptor = Assert.Single(distributedCacheServices);
             Assert.Equal(typeof(IDistributedCache), serviceDescriptor.ServiceType);
             Assert.Equal(typeof(SqlServerCache), serviceDescriptor.ImplementationType);
             Assert.Equal(ServiceLifetime.Singleton, serviceDescriptor.Lifetime);

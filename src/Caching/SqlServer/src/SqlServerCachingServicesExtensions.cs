@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using Microsoft.Extensions.Caching.Database;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.SqlServer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -42,6 +43,14 @@ namespace Microsoft.Extensions.DependencyInjection
         internal static void AddSqlServerCacheServices(IServiceCollection services)
         {
             services.Add(ServiceDescriptor.Singleton<IDistributedCache, SqlServerCache>());
+            if (PlatformHelper.IsMono)
+            {
+                services.Add(ServiceDescriptor.Singleton<ICacheDatabaseOperations, MonoDatabaseOperations>());
+            }
+            else
+            {
+                services.Add(ServiceDescriptor.Singleton<ICacheDatabaseOperations, DatabaseOperations>());
+            }
         }
     }
 }

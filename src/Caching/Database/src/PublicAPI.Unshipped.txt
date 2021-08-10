@@ -1,0 +1,46 @@
+Microsoft.Extensions.Caching.Database.DatabaseCache
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.DatabaseCacheOptions() -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.DefaultSlidingExpiration.get -> System.TimeSpan
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.DefaultSlidingExpiration.set -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.ExpiredItemsDeletionInterval.get -> System.TimeSpan?
+Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.ExpiredItemsDeletionInterval.set -> void
+Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations
+Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.DeleteExpiredCacheItems() -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.AbsoluteExpiration.get -> System.DateTimeOffset?
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.AbsoluteExpiration.set -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.DatabaseCacheItemInfo() -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.ExpiresAtTime.get -> System.DateTimeOffset
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.ExpiresAtTime.set -> void
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.SlidingExpirationInSeconds.get -> System.TimeSpan?
+Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.SlidingExpirationInSeconds.set -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCache.DatabaseCache(Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations databaseOperations, Microsoft.Extensions.Options.IOptions<Microsoft.Extensions.Caching.Database.DatabaseCacheOptions> options) -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCache.Get(string key) -> byte[]
+~Microsoft.Extensions.Caching.Database.DatabaseCache.GetAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<byte[]>
+~Microsoft.Extensions.Caching.Database.DatabaseCache.Refresh(string key) -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCache.RefreshAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.DatabaseCache.Remove(string key) -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCache.RemoveAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.DatabaseCache.Set(string key, byte[] value, Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions options) -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCache.SetAsync(string key, byte[] value, Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions options, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.ConnectionString.get -> string
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.ConnectionString.set -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.SchemaName.get -> string
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.SchemaName.set -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.SystemClock.get -> Microsoft.Extensions.Internal.ISystemClock
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.SystemClock.set -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.TableName.get -> string
+~Microsoft.Extensions.Caching.Database.DatabaseCacheOptions.TableName.set -> void
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.DeleteCacheItem(string key) -> void
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.DeleteCacheItemAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.GetCacheItem(string key) -> byte[]
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.GetCacheItemAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<byte[]>
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.RefreshCacheItem(string key) -> void
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.RefreshCacheItemAsync(string key, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.SetCacheItem(string key, byte[] value, Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions options) -> void
+~Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations.SetCacheItemAsync(string key, byte[] value, Microsoft.Extensions.Caching.Distributed.DistributedCacheEntryOptions options, System.Threading.CancellationToken token = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task
+~Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.Id.get -> string
+~Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.Id.set -> void
+~Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.Value.get -> byte[]
+~Microsoft.Extensions.Caching.Database.DatabaseCacheItemInfo.Value.set -> void

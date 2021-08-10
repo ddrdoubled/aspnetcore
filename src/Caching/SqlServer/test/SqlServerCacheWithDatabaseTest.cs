@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Testing;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Database;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Internal;
@@ -691,7 +692,27 @@ namespace Microsoft.Extensions.Caching.SqlServer
                 options = GetCacheOptions();
             }
 
-            return new SqlServerCache(options);
+            var databaseOperations = GetDatabaseOperations(options, PlatformHelper.IsMono);
+
+            return new SqlServerCache(databaseOperations, options);
+        }
+
+        private ICacheDatabaseOperations GetDatabaseOperations(SqlServerCacheOptions options, bool isMono = false)
+        {
+            if (isMono)
+            {
+                return new MonoDatabaseOperations(
+                    options.ConnectionString,
+                    options.SchemaName,
+                    options.TableName,
+                    options.SystemClock);
+            }
+
+            return new DatabaseOperations(
+                    options.ConnectionString,
+                    options.SchemaName,
+                    options.TableName,
+                    options.SystemClock);
         }
 
         private SqlServerCacheOptions GetCacheOptions(ISystemClock testClock = null)
@@ -724,7 +745,7 @@ namespace Microsoft.Extensions.Caching.SqlServer
             Assert.Equal(expectedExpirationTime, cacheItemInfo.ExpiresAtTime);
         }
 
-        private async Task<CacheItemInfo> GetCacheItemFromDatabaseAsync(string key)
+        private async Task<DatabaseCacheItemInfo> GetCacheItemFromDatabaseAsync(string key)
         {
             using (var connection = new SqlConnection(_connectionString))
             {
@@ -742,7 +763,7 @@ namespace Microsoft.Extensions.Caching.SqlServer
                 // we cannot use GetFieldValueAsync etc.
                 if (await reader.ReadAsync())
                 {
-                    var cacheItemInfo = new CacheItemInfo
+                    var cacheItemInfo = new DatabaseCacheItemInfo
                     {
                         Id = key,
                         Value = (byte[])reader[1],

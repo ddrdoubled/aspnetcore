@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.Caching.SqlServer
 {
@@ -17,6 +18,13 @@ namespace Microsoft.Extensions.Caching.SqlServer
             string connectionString, string schemaName, string tableName, ISystemClock systemClock)
             : base(connectionString, schemaName, tableName, systemClock)
         {
+        }
+
+        public MonoDatabaseOperations(
+            IOptions<SqlServerCacheOptions> options)
+            : this(options.Value.ConnectionString, options.Value.SchemaName, options.Value.TableName, options.Value.SystemClock)
+        {
+
         }
 
         protected override byte[] GetCacheItem(string key, bool includeValue)

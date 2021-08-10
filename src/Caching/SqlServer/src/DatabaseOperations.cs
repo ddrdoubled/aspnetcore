@@ -7,12 +7,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Caching.Database;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Internal;
+using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.Caching.SqlServer
 {
-    internal class DatabaseOperations : IDatabaseOperations
+    internal class DatabaseOperations : ICacheDatabaseOperations
     {
         /// <summary>
         /// Since there is no specific exception type representing a 'duplicate key' error, we are relying on
@@ -37,6 +39,13 @@ namespace Microsoft.Extensions.Caching.SqlServer
             TableName = tableName;
             SystemClock = systemClock;
             SqlQueries = new SqlQueries(schemaName, tableName);
+        }
+
+        public DatabaseOperations(
+            IOptions<SqlServerCacheOptions> options)
+            : this(options.Value.ConnectionString, options.Value.SchemaName, options.Value.TableName, options.Value.SystemClock)
+        {
+
         }
 
         protected SqlQueries SqlQueries { get; }
