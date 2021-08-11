@@ -14,7 +14,7 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.Caching.SqlServer
 {
-    internal class DatabaseOperations : ICacheDatabaseOperations
+    internal class DatabaseOperations : IDatabaseCacheOperations
     {
         /// <summary>
         /// Since there is no specific exception type representing a 'duplicate key' error, we are relying on

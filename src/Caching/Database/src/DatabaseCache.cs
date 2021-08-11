@@ -18,7 +18,7 @@ namespace Microsoft.Extensions.Caching.Database
         private static readonly TimeSpan MinimumExpiredItemsDeletionInterval = TimeSpan.FromMinutes(5);
         private static readonly TimeSpan DefaultExpiredItemsDeletionInterval = TimeSpan.FromMinutes(30);
 
-        private readonly ICacheDatabaseOperations _dbOperations;
+        private readonly IDatabaseCacheOperations _dbOperations;
         private readonly ISystemClock _systemClock;
         private readonly TimeSpan _expiredItemsDeletionInterval;
         private DateTimeOffset _lastExpirationScan;
@@ -31,7 +31,7 @@ namespace Microsoft.Extensions.Caching.Database
         /// </summary>
         /// <param name="databaseOperations">The underlying database operations</param>
         /// <param name="options">The configuration options.</param>
-        public DatabaseCache(ICacheDatabaseOperations databaseOperations, IOptions<DatabaseCacheOptions> options)
+        public DatabaseCache(IDatabaseCacheOperations databaseOperations, IOptions<DatabaseCacheOptions> options)
         {
             var cacheOptions = options.Value;
 

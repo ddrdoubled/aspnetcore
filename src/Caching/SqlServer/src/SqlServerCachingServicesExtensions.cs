@@ -45,11 +45,11 @@ namespace Microsoft.Extensions.DependencyInjection
             services.Add(ServiceDescriptor.Singleton<IDistributedCache, SqlServerCache>());
             if (PlatformHelper.IsMono)
             {
-                services.Add(ServiceDescriptor.Singleton<ICacheDatabaseOperations, MonoDatabaseOperations>());
+                services.Add(ServiceDescriptor.Singleton<IDatabaseCacheOperations, MonoDatabaseOperations>());
             }
             else
             {
-                services.Add(ServiceDescriptor.Singleton<ICacheDatabaseOperations, DatabaseOperations>());
+                services.Add(ServiceDescriptor.Singleton<IDatabaseCacheOperations, DatabaseOperations>());
             }
         }
     }

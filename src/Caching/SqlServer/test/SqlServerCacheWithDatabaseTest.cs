@@ -697,7 +697,7 @@ namespace Microsoft.Extensions.Caching.SqlServer
             return new SqlServerCache(databaseOperations, options);
         }
 
-        private ICacheDatabaseOperations GetDatabaseOperations(SqlServerCacheOptions options, bool isMono = false)
+        private IDatabaseCacheOperations GetDatabaseOperations(SqlServerCacheOptions options, bool isMono = false)
         {
             if (isMono)
             {

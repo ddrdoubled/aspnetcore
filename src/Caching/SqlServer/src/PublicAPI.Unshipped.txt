@@ -1,2 +1,2 @@
-﻿#nullable enable
-~Microsoft.Extensions.Caching.SqlServer.SqlServerCache.SqlServerCache(Microsoft.Extensions.Caching.Database.ICacheDatabaseOperations databaseOperations, Microsoft.Extensions.Options.IOptions<Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions> options) -> void
+#nullable enable
+~Microsoft.Extensions.Caching.SqlServer.SqlServerCache.SqlServerCache(Microsoft.Extensions.Caching.Database.IDatabaseCacheOperations databaseOperations, Microsoft.Extensions.Options.IOptions<Microsoft.Extensions.Caching.SqlServer.SqlServerCacheOptions> options) -> void

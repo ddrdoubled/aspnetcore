@@ -10,7 +10,7 @@ namespace Microsoft.Extensions.Caching.Database
     /// <summary>
     /// Interface for operations in the <see cref="DatabaseCache"/>.
     /// </summary>
-    public interface ICacheDatabaseOperations
+    public interface IDatabaseCacheOperations
     {
         /// <summary>
         /// Retrieve the Cache Item from the database

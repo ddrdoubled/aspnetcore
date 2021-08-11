@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Caching.SqlServer
         /// </summary>
         /// <param name="databaseOperations">The database operations for SQL Server</param>
         /// <param name="options">The configuration options.</param>
-        public SqlServerCache(ICacheDatabaseOperations databaseOperations, IOptions<SqlServerCacheOptions> options) : base(databaseOperations, options)
+        public SqlServerCache(IDatabaseCacheOperations databaseOperations, IOptions<SqlServerCacheOptions> options) : base(databaseOperations, options)
         {
 
         }
