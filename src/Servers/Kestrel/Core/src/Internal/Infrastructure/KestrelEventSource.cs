@@ -8,7 +8,6 @@ using System.Net.Security;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
-using System.Threading;
 using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http;
 
@@ -39,7 +38,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         private long _httpRequestQueueLength;
         private long _currentUpgradedHttpRequests;
 
-        private readonly List<KestrelServerOptions> _options = new();
+        private readonly List<WeakReference<KestrelServerOptions>> _options = new();
 
         private KestrelEventSource()
         {
@@ -220,27 +219,31 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
-        [Event(11, Level = EventLevel.Informational)]
+        [Event(11, Level = EventLevel.LogAlways)]
         public void Configuration(int instanceId, string configuration)
         {
             // If the event source is already enabled, dump configuration
-            WriteEvent(11, instanceId, configuration);    
+            WriteEvent(11, instanceId, configuration);
         }
 
         [NonEvent]
         public void Configuration(KestrelServerOptions options)
         {
-            var bufferWriter = new ArrayBufferWriter<byte>();
-            var writer = new Utf8JsonWriter(bufferWriter);
+            // If the event source is already enabled, dump configuration
+            if (IsEnabled())
+            {
+                var bufferWriter = new ArrayBufferWriter<byte>();
+                var writer = new Utf8JsonWriter(bufferWriter);
 
-            writer.WriteStartObject();
-            options.Serialize(writer);
-            writer.WriteEndObject();
-            writer.Flush();
+                writer.WriteStartObject();
+                options.Serialize(writer);
+                writer.WriteEndObject();
+                writer.Flush();
 
-            var serializedConfig = Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
+                var serializedConfig = Encoding.UTF8.GetString(bufferWriter.WrittenSpan);
 
-            Configuration(options.GetHashCode(), serializedConfig);
+                Configuration(options.GetHashCode(), serializedConfig);
+            }
         }
 
         [NonEvent]
@@ -248,14 +251,10 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         {
             lock (_options)
             {
-                _options.Add(options);
+                _options.Add(new(options));
             }
 
-            // If the event source is already enabled, dump configuration
-            if (IsEnabled(EventLevel.Informational, EventKeywords.None))
-            {
-                Configuration(options);
-            }
+            Configuration(options);
         }
 
         [NonEvent]
@@ -263,7 +262,14 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
         {
             lock (_options)
             {
-                _options.Remove(options);
+                for (var i = _options.Count - 1; i >= 0; i--)
+                {
+                    var weakReference = _options[i];
+                    if (!weakReference.TryGetTarget(out var target) || ReferenceEquals(target, options))
+                    {
+                        _options.RemoveAt(i);
+                    }
+                }
             }
         }
 
@@ -353,9 +359,18 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure
                 // Log the options here
                 lock (_options)
                 {
-                    foreach (var option in _options)
+                    for (var i = _options.Count - 1; i >= 0; i--)
                     {
-                        Configuration(option);
+                        var weakReference = _options[i];
+                        if (!weakReference.TryGetTarget(out var target))
+                        {
+                            // Remove any options that have been collected
+                            _options.RemoveAt(i);
+                        }
+                        else
+                        {
+                            Configuration(target);
+                        }
                     }
                 }
             }

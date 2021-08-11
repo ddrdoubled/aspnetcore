@@ -728,7 +728,6 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
         }
 
         [Fact]
-        [QuarantinedTest("https://github.com/dotnet/aspnetcore/issues/33760")]
         public async Task ContentLength_Received_NoDataFrames_Reset()
         {
             var headers = new[]
@@ -2128,7 +2127,7 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
 
             await Http3Api.WaitForConnectionErrorAsync<Http3ConnectionErrorException>(
                 ignoreNonGoAwayFrames: true,
-                expectedLastStreamId: 8,
+                expectedLastStreamId: 4,
                 expectedErrorCode: Http3ErrorCode.UnexpectedFrame,
                 expectedErrorMessage: CoreStrings.FormatHttp3ErrorUnsupportedFrameOnRequestStream(Http3Formatting.ToFormattedType(f)));
         }
@@ -2489,8 +2488,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
 
             await requestStream.OnStreamCompletedTask.DefaultTimeout();
 
-            // TODO(JamesNK): Check for abort of request side of stream after https://github.com/dotnet/aspnetcore/issues/31970
             Assert.Contains(LogMessages, m => m.Message.Contains("the application completed without reading the entire request body."));
+            Assert.Equal("The application completed without reading the entire request body.", requestStream.AbortReadException.Message);
 
             Assert.Equal(3, receivedHeaders.Count);
             Assert.Contains("date", receivedHeaders.Keys, StringComparer.OrdinalIgnoreCase);
@@ -2818,8 +2817,8 @@ namespace Microsoft.AspNetCore.Server.Kestrel.Core.Tests
 
             await requestStream.OnStreamCompletedTask.DefaultTimeout();
 
-            // TODO(JamesNK): Check for abort of request side of stream after https://github.com/dotnet/aspnetcore/issues/31970
             Assert.Contains(LogMessages, m => m.Message.Contains("the application completed without reading the entire request body."));
+            Assert.Equal("The application completed without reading the entire request body.", requestStream.AbortReadException.Message);
         }
 
         [Fact]

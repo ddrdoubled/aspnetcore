@@ -195,6 +195,7 @@ namespace Microsoft.AspNetCore.Components.E2ETest.Tests
         }
 
         [Fact]
+        [QuarantinedTest("https://github.com/dotnet/aspnetcore/issues/35018")]
         public void InputDateInteractsWithEditContext_NonNullableDateTime()
         {
             var appElement = MountTypicalValidationComponent();
@@ -250,6 +251,7 @@ namespace Microsoft.AspNetCore.Components.E2ETest.Tests
         }
 
         [Fact]
+        [QuarantinedTest("https://github.com/dotnet/aspnetcore/issues/35018")]
         public void InputDateInteractsWithEditContext_TimeInput()
         {
             var appElement = MountTypicalValidationComponent();
@@ -304,6 +306,7 @@ namespace Microsoft.AspNetCore.Components.E2ETest.Tests
         }
 
         [Fact]
+        [QuarantinedTest("https://github.com/dotnet/aspnetcore/issues/34884")]
         public void InputDateInteractsWithEditContext_DateTimeLocalInput()
         {
             var appElement = MountTypicalValidationComponent();
